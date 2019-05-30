@@ -1,6 +1,8 @@
 package com.example.patel.tappyspaceship;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -42,6 +44,11 @@ public class GameEngine extends SurfaceView implements Runnable{
     // ## SPRITES
     // ----------------------------
 
+    //Player image
+    Bitmap playerImage;
+    Bitmap enemyImage;
+
+
     // ----------------------------
     // ## GAME STATS
     // ----------------------------
@@ -62,6 +69,9 @@ public class GameEngine extends SurfaceView implements Runnable{
 
         // @TODO: Add your sprites
         // @TODO: Any other game setup
+
+        this.playerImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.alien_ship2);
+        this.enemyImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.alien_ship1);
 
     }
 
@@ -133,7 +143,11 @@ public class GameEngine extends SurfaceView implements Runnable{
 
 
             //@TODO: Draw the player
+
+            canvas.drawBitmap(playerImage, 100, 120, paintbrush);
+
             //@TODO: Draw the enemy
+            canvas.drawBitmap(enemyImage, this.screenWidth - 200, 120, paintbrush);
 
             //----------------
             this.holder.unlockCanvasAndPost(canvas);
