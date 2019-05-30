@@ -54,6 +54,7 @@ public class GameEngine extends SurfaceView implements Runnable{
     Rect enemyHitBox;
     Point playerPos;
     Point enemyPos;
+    boolean gameOver = false;
 
     // ----------------------------
     // ## GAME STATS
@@ -156,6 +157,11 @@ public class GameEngine extends SurfaceView implements Runnable{
             this.lives--;
             Log.d(TAG, "Lives Left" + this.lives);
 
+            if(lives <= 0){
+                gameOver = true;
+            }
+
+
             //restart when collided
             this.playerPos.x = 100;
             this.playerPos.y = 120;
@@ -205,6 +211,11 @@ public class GameEngine extends SurfaceView implements Runnable{
             //draw Game Stats
             paintbrush.setTextSize(50);
             canvas.drawText("Lives: " + this.lives, 50, 50, paintbrush);
+
+            if(gameOver==true){
+                paintbrush.setTextSize(50);
+                canvas.drawText("GAME OVER", 50, 120, paintbrush);
+            }
             //
             //----------------
             this.holder.unlockCanvasAndPost(canvas);
