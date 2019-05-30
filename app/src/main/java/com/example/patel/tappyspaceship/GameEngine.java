@@ -151,6 +151,9 @@ public class GameEngine extends SurfaceView implements Runnable{
 
         // @TODO: Update position of enemy ships
         // @TODO: Collision detection between player and enemy
+        if(playerHitBox.intersect(enemyHitBox)){
+            Log.d(TAG, "BOOOM");
+        }
     }
 
     public void redrawSprites() {
