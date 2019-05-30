@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -48,6 +49,7 @@ public class GameEngine extends SurfaceView implements Runnable{
     Bitmap playerImage;
     Bitmap enemyImage;
 
+    Rect playerHitBox;
 
     // ----------------------------
     // ## GAME STATS
@@ -73,6 +75,9 @@ public class GameEngine extends SurfaceView implements Runnable{
         this.playerImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.alien_ship2);
         this.enemyImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.alien_ship1);
 
+
+        //set up hit box
+        this.playerHitBox = new Rect(100, 120, 100 + this.playerImage.getWidth(), 120 + this.playerImage.getHeight());
     }
 
 
@@ -138,16 +143,27 @@ public class GameEngine extends SurfaceView implements Runnable{
             //----------------
 
             // configure the drawing tools
-            this.canvas.drawColor(Color.argb(255,0,0,0));
+            this.canvas.drawColor(Color.argb(255,255,255,0));
             paintbrush.setColor(Color.WHITE);
 
 
             //@TODO: Draw the player
 
             canvas.drawBitmap(playerImage, 100, 120, paintbrush);
+            //draw player hitbox
+            canvas.drawRect(this.playerHitBox.left, this.playerHitBox.top,this.playerHitBox.right,this.playerHitBox.bottom, paintbrush);
+
+            //change paint brush setting
+            paintbrush.setColor(Color.BLUE);
+            paintbrush.setStyle(Paint.Style.STROKE);
+            paintbrush.setStrokeWidth(5);
+
+            // 2. draw the hitbox
+            canvas.drawRect(this.playerHitBox.left, this.playerHitBox.top,this.playerHitBox.right,this.playerHitBox.bottom,paintbrush);
+
 
             //@TODO: Draw the enemy
-            canvas.drawBitmap(enemyImage, this.screenWidth - 200, 120, paintbrush);
+            canvas.drawBitmap(enemyImage, this.screenWidth - 500, 120, paintbrush);
 
             //----------------
             this.holder.unlockCanvasAndPost(canvas);
