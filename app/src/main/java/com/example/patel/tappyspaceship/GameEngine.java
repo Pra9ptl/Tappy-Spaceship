@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -50,6 +51,7 @@ public class GameEngine extends SurfaceView implements Runnable{
     Bitmap enemyImage;
 
     Rect playerHitBox;
+    Point playerPos;
 
     // ----------------------------
     // ## GAME STATS
@@ -75,9 +77,13 @@ public class GameEngine extends SurfaceView implements Runnable{
         this.playerImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.alien_ship2);
         this.enemyImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.alien_ship1);
 
+        //setup initial position of the player
+        this.playerPos = new Point();
+        this.playerPos.x = 100;
+        this.playerPos.y = 120;
 
         //set up hit box
-        this.playerHitBox = new Rect(100, 120, 100 + this.playerImage.getWidth(), 120 + this.playerImage.getHeight());
+        this.playerHitBox = new Rect(playerPos.x, playerPos.y, playerPos.x + this.playerImage.getWidth(), playerPos.y + this.playerImage.getHeight());
     }
 
 
@@ -149,7 +155,7 @@ public class GameEngine extends SurfaceView implements Runnable{
 
             //@TODO: Draw the player
 
-            canvas.drawBitmap(playerImage, 100, 120, paintbrush);
+            canvas.drawBitmap(playerImage, playerPos.x, playerPos.y, paintbrush);
             //draw player hitbox
             canvas.drawRect(this.playerHitBox.left, this.playerHitBox.top,this.playerHitBox.right,this.playerHitBox.bottom, paintbrush);
 
