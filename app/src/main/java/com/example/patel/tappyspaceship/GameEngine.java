@@ -51,7 +51,9 @@ public class GameEngine extends SurfaceView implements Runnable{
     Bitmap enemyImage;
 
     Rect playerHitBox;
+    Rect enemyHitBox;
     Point playerPos;
+    Point enemyPos;
 
     // ----------------------------
     // ## GAME STATS
@@ -84,6 +86,7 @@ public class GameEngine extends SurfaceView implements Runnable{
 
         //set up hit box
         this.playerHitBox = new Rect(playerPos.x, playerPos.y, playerPos.x + this.playerImage.getWidth(), playerPos.y + this.playerImage.getHeight());
+        this.enemyHitBox = new Rect(this.screenWidth - 500, 120, this.screenWidth - 500 + this.enemyImage.getWidth(), 120 + this.enemyImage.getHeight());
     }
 
 
@@ -135,9 +138,17 @@ public class GameEngine extends SurfaceView implements Runnable{
     // GAME ENGINE FUNCTIONS
     // - update, draw, setFPS
     // ------------------------------
+    final int PLAYER_SPEED = 30;
 
     public void updatePositions() {
         // @TODO: Update position of player
+
+        //move the player position
+        this.playerPos.x = this.playerPos.x + PLAYER_SPEED;
+        //move the hitbox position
+        this.playerHitBox.left = this.playerHitBox.left + PLAYER_SPEED;
+        this.playerHitBox.right = this.playerHitBox.right + PLAYER_SPEED;
+
         // @TODO: Update position of enemy ships
         // @TODO: Collision detection between player and enemy
     }
@@ -170,7 +181,15 @@ public class GameEngine extends SurfaceView implements Runnable{
 
             //@TODO: Draw the enemy
             canvas.drawBitmap(enemyImage, this.screenWidth - 500, 120, paintbrush);
+            //change paint brush setting
+            paintbrush.setColor(Color.RED);
+            paintbrush.setStyle(Paint.Style.STROKE);
+            paintbrush.setStrokeWidth(5);
 
+            // 2. draw the hitbox
+            canvas.drawRect(this.enemyHitBox.left, this.enemyHitBox.top,this.enemyHitBox.right,this.enemyHitBox.bottom,paintbrush);
+
+            //
             //----------------
             this.holder.unlockCanvasAndPost(canvas);
         }
