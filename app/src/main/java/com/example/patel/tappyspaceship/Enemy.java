@@ -28,7 +28,7 @@ public class Enemy {
         this.enemyHitBox = new Rect(
                 this.xPosition,
                 yPosition,
-                this.xPosition - 500 + this.enemyImage.getWidth(),
+                this.xPosition + this.enemyImage.getWidth(),
                 this.yPosition + this.enemyImage.getHeight());
 
 

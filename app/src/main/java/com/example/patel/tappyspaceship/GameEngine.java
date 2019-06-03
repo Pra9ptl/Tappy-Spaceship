@@ -52,9 +52,13 @@ public class GameEngine extends SurfaceView implements Runnable{
     Point playerPos;
 
     //enemy imagee
-    Bitmap enemyImage;
-    Rect enemyHitBox;
     Point enemyPos;
+
+    //Enemy Variables
+    Enemy enemy1;
+    Enemy enemy2;
+
+
     boolean gameOver = false;
 
     // ----------------------------
@@ -79,7 +83,7 @@ public class GameEngine extends SurfaceView implements Runnable{
         // @TODO: Any other game setup
 
         this.playerImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.alien_ship2);
-        this.enemyImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.alien_ship1);
+
 
         //setup initial position of the player
         this.playerPos = new Point();
@@ -88,7 +92,10 @@ public class GameEngine extends SurfaceView implements Runnable{
 
         //set up hit box
         this.playerHitBox = new Rect(playerPos.x, playerPos.y, playerPos.x + this.playerImage.getWidth(), playerPos.y + this.playerImage.getHeight());
-        this.enemyHitBox = new Rect(this.screenWidth - 500, 120, this.screenWidth - 500 + this.enemyImage.getWidth(), 120 + this.enemyImage.getHeight());
+
+
+        this.enemy1 = new Enemy(context, this.screenWidth - 500, 120);
+        this.enemy2 = new Enemy(context, this.screenWidth - 500, 500);
     }
 
 
@@ -153,7 +160,7 @@ public class GameEngine extends SurfaceView implements Runnable{
 
         // @TODO: Update position of enemy ships
         // @TODO: Collision detection between player and enemy
-        if(playerHitBox.intersect(enemyHitBox)){
+        if(playerHitBox.intersect(this.enemy1.getEnemyHitBox())){
             Log.d(TAG, "BOOOM");
             this.lives--;
             Log.d(TAG, "Lives Left" + this.lives);
@@ -200,14 +207,28 @@ public class GameEngine extends SurfaceView implements Runnable{
 
 
             //@TODO: Draw the enemy
-            canvas.drawBitmap(enemyImage, this.screenWidth - 500, 120, paintbrush);
+            // refactored to use Enemy object
+            canvas.drawBitmap(this.enemy1.getEnemyImage(), this.enemy1.getxPosition(), this.enemy1.getyPosition(), paintbrush);
+            canvas.drawBitmap(this.enemy2.getEnemyImage(), this.enemy2.getxPosition(), this.enemy2.getyPosition(), paintbrush);
             //change paint brush setting
             paintbrush.setColor(Color.RED);
             paintbrush.setStyle(Paint.Style.STROKE);
             paintbrush.setStrokeWidth(5);
 
-            // 2. draw the hitbox
-            canvas.drawRect(this.enemyHitBox.left, this.enemyHitBox.top,this.enemyHitBox.right,this.enemyHitBox.bottom,paintbrush);
+            // Draw enemy hitbox - refactored to use Enemy object
+            canvas.drawRect(this.enemy1.getEnemyHitBox().left,
+                    this.enemy1.getEnemyHitBox().top,
+                    this.enemy1.getEnemyHitBox().right,
+                    this.enemy1.getEnemyHitBox().bottom,
+                    paintbrush
+            );
+
+            canvas.drawRect(this.enemy2.getEnemyHitBox().left,
+                    this.enemy2.getEnemyHitBox().top,
+                    this.enemy2.getEnemyHitBox().right,
+                    this.enemy2.getEnemyHitBox().bottom,
+                    paintbrush
+            );
 
             //draw Game Stats
             paintbrush.setTextSize(50);
