@@ -48,11 +48,12 @@ public class GameEngine extends SurfaceView implements Runnable{
 
     //Player image
     Bitmap playerImage;
-    Bitmap enemyImage;
-
     Rect playerHitBox;
-    Rect enemyHitBox;
     Point playerPos;
+
+    //enemy imagee
+    Bitmap enemyImage;
+    Rect enemyHitBox;
     Point enemyPos;
     boolean gameOver = false;
 
