@@ -80,7 +80,7 @@ public class GameEngine extends SurfaceView implements Runnable{
         // @TODO: Any other game setup
 
         int initialPlayerX = 100;
-        int initialPlayerY = 120;
+        int initialPlayerY = 350;
         this.player = new Player(context,initialPlayerX, initialPlayerY);
 
         //setup initial position of the player
@@ -88,8 +88,8 @@ public class GameEngine extends SurfaceView implements Runnable{
         //set up hit box
 
 
-        this.enemy1 = new Enemy(context, this.screenWidth - 500, 120);
-        this.enemy2 = new Enemy(context, this.screenWidth - 500, 500);
+        this.enemy1 = new Enemy(context, this.screenWidth - 500, 50);
+        this.enemy2 = new Enemy(context, this.screenWidth - 500, 650);
     }
 
 
@@ -142,17 +142,20 @@ public class GameEngine extends SurfaceView implements Runnable{
     // - update, draw, setFPS
     // ------------------------------
     final int PLAYER_SPEED = 30;
-
+    final int ENEMY_SPEED = 30;
     public void updatePositions() {
         // @TODO: Update position of player
 
-        //move the player position
-        this.player.setxPosition(this.player.getxPosition() + PLAYER_SPEED);
-        //move the hitbox position
-        this.player.getPlayerHitBox().left = this.player.getPlayerHitBox().left + PLAYER_SPEED;
-        this.player.getPlayerHitBox().right = this.player.getPlayerHitBox().right + PLAYER_SPEED;
-
         // @TODO: Update position of enemy ships
+
+        this.enemy1.setxPosition(this.enemy1.getxPosition() - ENEMY_SPEED);
+        this.enemy1.getEnemyHitBox().left = this.enemy1.getEnemyHitBox().left - ENEMY_SPEED;
+        this.enemy1.getEnemyHitBox().right = this.enemy1.getEnemyHitBox().right - ENEMY_SPEED;
+
+        this.enemy2.setxPosition(this.enemy2.getxPosition() - ENEMY_SPEED);
+        this.enemy2.getEnemyHitBox().left = this.enemy2.getEnemyHitBox().left - ENEMY_SPEED;
+        this.enemy2.getEnemyHitBox().right = this.enemy2.getEnemyHitBox().right - ENEMY_SPEED;
+
         // @TODO: Collision detection between player and enemy
         if(player.getPlayerHitBox().intersect(this.enemy1.getEnemyHitBox())){
             Log.d(TAG, "BOOOM");
@@ -163,14 +166,14 @@ public class GameEngine extends SurfaceView implements Runnable{
                 gameOver = true;
             }
 
-
+/*
             //restart when collided
-            this.player.setxPosition(100);
-            this.player.setyPosition(120);
-            this.player.getPlayerHitBox().left = this.player.getxPosition();
-            this.player.getPlayerHitBox().top = this.player.getyPosition();
-            this.player.getPlayerHitBox().right = this.player.getxPosition() + this.player.getPlayerImage().getWidth();
-            this.player.getPlayerHitBox().bottom = this.player.getyPosition() + this.player.getPlayerImage().getHeight();
+            this.player.setxPosition() = 100;
+            this.player.setyPosition() = 120;
+            this.player.getPlayerHitBox().left = this.player.getPlayerPos().x;
+            this.player.getPlayerHitBox().top = this.player.getPlayerPos().y;
+            this.player.getPlayerHitBox().right = this.player.getPlayerPos().x + this.player.getPlayerImage().getWidth();
+            this.player.getPlayerHitBox().bottom = this.player.getPlayerPos().y + this.player.getPlayerImage().getHeight(); */
         }
     }
 
