@@ -47,12 +47,9 @@ public class GameEngine extends SurfaceView implements Runnable{
     // ----------------------------
 
     //Player image
-    Bitmap playerImage;
-    Rect playerHitBox;
-    Point playerPos;
+    Player player;
 
     //enemy imagee
-    Point enemyPos;
 
     //Enemy Variables
     Enemy enemy1;
@@ -82,16 +79,13 @@ public class GameEngine extends SurfaceView implements Runnable{
         // @TODO: Add your sprites
         // @TODO: Any other game setup
 
-        this.playerImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.alien_ship2);
-
+        int initialPlayerX = 100;
+        int initialPlayerY = 120;
+        this.player = new Player(context,initialPlayerX, initialPlayerY);
 
         //setup initial position of the player
-        this.playerPos = new Point();
-        this.playerPos.x = 100;
-        this.playerPos.y = 120;
 
         //set up hit box
-        this.playerHitBox = new Rect(playerPos.x, playerPos.y, playerPos.x + this.playerImage.getWidth(), playerPos.y + this.playerImage.getHeight());
 
 
         this.enemy1 = new Enemy(context, this.screenWidth - 500, 120);
@@ -153,14 +147,14 @@ public class GameEngine extends SurfaceView implements Runnable{
         // @TODO: Update position of player
 
         //move the player position
-        this.playerPos.x = this.playerPos.x + PLAYER_SPEED;
+        this.player.setxPosition(this.player.getxPosition() + PLAYER_SPEED);
         //move the hitbox position
-        this.playerHitBox.left = this.playerHitBox.left + PLAYER_SPEED;
-        this.playerHitBox.right = this.playerHitBox.right + PLAYER_SPEED;
+        this.player.getPlayerHitBox().left = this.player.getPlayerHitBox().left + PLAYER_SPEED;
+        this.player.getPlayerHitBox().right = this.player.getPlayerHitBox().right + PLAYER_SPEED;
 
         // @TODO: Update position of enemy ships
         // @TODO: Collision detection between player and enemy
-        if(playerHitBox.intersect(this.enemy1.getEnemyHitBox())){
+        if(player.getPlayerHitBox().intersect(this.enemy1.getEnemyHitBox())){
             Log.d(TAG, "BOOOM");
             this.lives--;
             Log.d(TAG, "Lives Left" + this.lives);
@@ -171,12 +165,12 @@ public class GameEngine extends SurfaceView implements Runnable{
 
 
             //restart when collided
-            this.playerPos.x = 100;
-            this.playerPos.y = 120;
-            this.playerHitBox.left = this.playerPos.x;
-            this.playerHitBox.top = this.playerPos.y;
-            this.playerHitBox.right = this.playerPos.x + this.playerImage.getWidth();
-            this.playerHitBox.bottom = this.playerPos.y + this.playerImage.getHeight();
+            this.player.setxPosition(100);
+            this.player.setyPosition(120);
+            this.player.getPlayerHitBox().left = this.player.getxPosition();
+            this.player.getPlayerHitBox().top = this.player.getyPosition();
+            this.player.getPlayerHitBox().right = this.player.getxPosition() + this.player.getPlayerImage().getWidth();
+            this.player.getPlayerHitBox().bottom = this.player.getyPosition() + this.player.getPlayerImage().getHeight();
         }
     }
 
@@ -193,9 +187,9 @@ public class GameEngine extends SurfaceView implements Runnable{
 
             //@TODO: Draw the player
 
-            canvas.drawBitmap(playerImage, playerPos.x, playerPos.y, paintbrush);
+            canvas.drawBitmap(player.getPlayerImage(), player.getxPosition(), player.getyPosition(), paintbrush);
             //draw player hitbox
-            canvas.drawRect(this.playerHitBox.left, this.playerHitBox.top,this.playerHitBox.right,this.playerHitBox.bottom, paintbrush);
+
 
             //change paint brush setting
             paintbrush.setColor(Color.BLUE);
@@ -203,7 +197,7 @@ public class GameEngine extends SurfaceView implements Runnable{
             paintbrush.setStrokeWidth(5);
 
             // 2. draw the hitbox
-            canvas.drawRect(this.playerHitBox.left, this.playerHitBox.top,this.playerHitBox.right,this.playerHitBox.bottom,paintbrush);
+            canvas.drawRect(this.player.getPlayerHitBox().left, this.player.getPlayerHitBox().top,this.player.getPlayerHitBox().right,this.player.getPlayerHitBox().bottom,paintbrush);
 
 
             //@TODO: Draw the enemy
