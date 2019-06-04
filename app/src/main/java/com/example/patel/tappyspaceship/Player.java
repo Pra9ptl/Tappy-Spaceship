@@ -3,45 +3,50 @@ package com.example.patel.tappyspaceship;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.graphics.Rect;
 
 public class Player {
-    private Bitmap playerImage;
-    private Rect playerHitBox;
+
+    // PROPERTIES
+    private Bitmap image;
+    private Rect hitbox;
+
     private int xPosition;
     private int yPosition;
 
-    public Player(Context context, int x, int y){
-        //1. set initial position of the enem
+    public Player(Context context, int x, int y) {
+        // 1. set up the initial position of the Enemy
         this.xPosition = x;
         this.yPosition = y;
 
-        //2. Set the default imsge -- enemy has image
-        this.playerImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.alien_ship2);
+        // 2. Set the default image - all enemies have same image
+        this.image = BitmapFactory.decodeResource(context.getResources(), R.drawable.player_ship);
 
-        // 3. se the default hitbox -- same hitbox
-        this.playerHitBox = new Rect(
+        // 3. Set the default hitbox - all enemies have same hitbox
+        this.hitbox = new Rect(
                 this.xPosition,
-                yPosition,
-                this.xPosition + this.playerImage.getWidth(),
-                this.yPosition + this.playerImage.getHeight());
+                this.yPosition,
+                this.xPosition + this.image.getWidth(),
+                this.yPosition + this.image.getHeight()
+        );
     }
 
-    public Bitmap getPlayerImage() {
-        return playerImage;
+
+    // GETTER AND SETTER METHODS
+    public Bitmap getImage() {
+        return image;
     }
 
-    public void setPlayerImage(Bitmap playerImage) {
-        this.playerImage = playerImage;
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
 
-    public Rect getPlayerHitBox() {
-        return playerHitBox;
+    public Rect getHitbox() {
+        return hitbox;
     }
 
-    public void setPlayerHitBox(Rect playerHitBox) {
-        this.playerHitBox = playerHitBox;
+    public void setHitbox(Rect hitbox) {
+        this.hitbox = hitbox;
     }
 
     public int getxPosition() {
@@ -59,5 +64,4 @@ public class Player {
     public void setyPosition(int yPosition) {
         this.yPosition = yPosition;
     }
-
 }
